@@ -9,11 +9,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Connection;
 import uk.co.jpereira.pubsub.connection.Observer;
 
 public class TCPConnection implements Connection {
+	private static final Logger logger = LoggerFactory.getLogger(TCPConnection.class);
 	Socket connection = null;
 	private ObjectInputStream inputStream = null;
 	private ObjectOutputStream outputStream = null;
@@ -22,15 +26,36 @@ public class TCPConnection implements Connection {
 	public Thread newObject = null;
 	
 	public TCPConnection(Socket connection) {
+		logger.info("TCPConnection(" + connection +")");
 		this.connection = connection;
 		try {
-			inputStream = new ObjectInputStream(connection.getInputStream());
+			logger.info("1");
 			outputStream = new ObjectOutputStream(connection.getOutputStream());
+			logger.info("2");
+			inputStream = new ObjectInputStream(connection.getInputStream());
+			logger.info("3");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		observers = new HashMap<>();
+		logger.info("Done TCPConnection");
+	}
+	public TCPConnection(TCPConfig config) {
+		logger.info("TCPConnection(" + connection +")");
+		try {
+			this.connection = new Socket(config.getUrl(), config.getPort());
+			logger.info("1");
+			inputStream = new ObjectInputStream(connection.getInputStream());
+			logger.info("2");
+			outputStream = new ObjectOutputStream(connection.getOutputStream());
+			logger.info("3");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		observers = new HashMap<>();
+		logger.info("Done TCPConnection");
 	}
 
 	@Override

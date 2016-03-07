@@ -48,6 +48,7 @@ public class TCPServer implements Server {
 
 			logger.info("Waiting for connections");
 			Socket socket = serverSocket.accept();
+			logger.info("New connection accepted: " + socket);
 			return new TCPConnection(socket);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -16,6 +16,7 @@ public abstract class Publisher {
 	private static final Logger logger = LoggerFactory.getLogger(Publisher.class);
 	private Server server = null;
 	private Map<String, List<Connection>> allConnections;
+	private NewConnectionObserver newConnection;
 	public Publisher() {
 		allConnections = new HashMap<>();
 	}
@@ -31,7 +32,8 @@ public abstract class Publisher {
 
 		logger.info("Init server" );
 		this.server = server;
-		this.server.registerWaitForConnection(new NewConnectionObserver());
+		newConnection = new NewConnectionObserver();
+		this.server.registerWaitForConnection(newConnection);
 	}
 	
 	protected class NewConnectionObserver implements Observer {
@@ -45,7 +47,7 @@ public abstract class Publisher {
 		@Override
 		public synchronized void update(Object observable, Object obj) {
 			con = (Connection) obj;
-			logger.debug("New connection stablished: " + con);
+			logger.info("New connection stablished: " + con);
 			con.registerObserverNewObject(RegistrationPacket.class, new ConnectionObserver());
 		}
 	}
@@ -60,11 +62,14 @@ public abstract class Publisher {
 		public synchronized void update(Object observable, Object obj) {
 			packet = (RegistrationPacket)obj;
 			Connection con = (Connection)observable;
+			logger.info("Received: " + con);
 			for(String feed: packet.getAllFeeds()) {
 				List<Connection> connection = allConnections.get(feed);
 				if(connection == null)
 					connection = new ArrayList<>();
+				logger.info("Received: " + con);
 				connection.add(con);
+				allConnections.put(feed, connection);
 			}
 		}
 	}

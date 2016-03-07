@@ -24,18 +24,9 @@ public class TCPClient implements Client {
 	}
 	public void connect() {
 		logger.info("Going to connect to: " + config.getUrl() + "," + config.getPort());
-		try {
-			Socket socket = new Socket(config.getUrl(), config.getPort());
-			connection = new TCPConnection(socket);
+		connection = new TCPConnection(config);
 
-			logger.info("Connected");
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		logger.info("Connected");
 	}
 	public boolean isConnected() {
 		return connection != null && connection.isConnected();
