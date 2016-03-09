@@ -1,6 +1,7 @@
 package uk.co.jpereira.pubsub.connection;
 
 import uk.co.jpereira.observer.Observer;
+import uk.co.jpereira.pubsub.DisconnectedPublisherException;
 import uk.co.jpereira.pubsub.RegistrationPacket;
 import uk.co.jpereira.pubsub.TransferData;
 
@@ -16,8 +17,9 @@ public interface Client {
 	/**
 	 * Blocking function to wait and read from the Publisher
 	 * @return Data sent by the Publisher
+	 * @throws DisconnectedPublisherException 
 	 */
-	public TransferData read();
+	public TransferData read() throws DisconnectedPublisherException;
 	
 	/**
 	 * Non blocking function to retrieve the Publisher data
@@ -30,6 +32,20 @@ public interface Client {
 	/**
 	 * Register the subscriber to a feed or list of feeds 
 	 * @param packet Packet of registration
+	 * @throws DisconnectedPublisherException 
 	 */
-	public void registerFeed(RegistrationPacket packet);
+	public void registerFeed(RegistrationPacket packet) throws DisconnectedPublisherException;
+
+	/**
+	 * Send Keep Alive packet 
+	 * @throws DisconnectedPublisherException 
+	 */
+	public void sendKeepAlive() throws DisconnectedPublisherException;
+	
+	/**
+	 * Check if connection is still alive
+	 * @return True if still alive, false otherwise
+	 * @return
+	 */
+	public boolean isAlive();
 }

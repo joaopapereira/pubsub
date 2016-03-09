@@ -1,8 +1,8 @@
 package co.uk.jpereira.pusub.examples.tcp;
 
 import uk.co.jpereira.pubsub.Publisher;
-import uk.co.jpereira.pubsub.connection.TCP.TCPConfig;
-import uk.co.jpereira.pubsub.connection.TCP.TCPServer;
+import uk.co.jpereira.pubsub.connection.tcp.TCPConfig;
+import uk.co.jpereira.pubsub.connection.tcp.TCPServer;
 
 public class TCPPublisher extends Publisher {
 	TCPConfig config = null;

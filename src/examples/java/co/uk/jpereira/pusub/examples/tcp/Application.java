@@ -2,11 +2,12 @@ package co.uk.jpereira.pusub.examples.tcp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.co.jpereira.pubsub.DisconnectedPublisherException;
 import uk.co.jpereira.pubsub.TransferData;
 
 public class Application {
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, DisconnectedPublisherException {
 		// TODO Auto-generated method stub
 		logger.info("Bamm");
 		TCPPublisher publisher = new TCPPublisher();
@@ -24,8 +25,8 @@ public class Application {
 		logger.info("after publish");
 		Thread.sleep(2000);
 		publisher.stop();
-		publisher = new TCPPublisher();
-		publisher.publish("bamm", info);
+		//publisher = new TCPPublisher();
+		//publisher.publish("bamm", info);
 		
 	}
 	
@@ -52,12 +53,29 @@ public class Application {
 					e.printStackTrace();
 				}
 				logger.info("going to subscribe");
-				sub1.subscribe("bamm");
+				try {
+					sub1.subscribe("bamm");
+				} catch (DisconnectedPublisherException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				logger.info("Subscribed waiting");
-				Information info = (Information)sub1.read();
-				logger.info(info.test);
-				info = (Information)sub1.read();
-				logger.info("Retrieved second");
+				Information info;
+				try {
+					info = (Information)sub1.read();
+					logger.info(info.test);
+				} catch (DisconnectedPublisherException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					info = (Information)sub1.read();
+
+					logger.info("Retrieved second");
+				} catch (DisconnectedPublisherException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}.start();
 	}

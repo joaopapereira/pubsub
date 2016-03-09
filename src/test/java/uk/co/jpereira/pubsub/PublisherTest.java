@@ -46,12 +46,12 @@ public class PublisherTest {
 		private Connection con3;
 		
 		@Test
-		public void noSubscribers() {
+		public void noSubscribers() throws DisconnectedPublisherException {
 			PublisherImpl publisher = new PublisherImpl();
 			publisher.publish("test", Mockito.mock(TransferData.class));
 		}
 		@Test
-		public void noSubscribersForPublished() {
+		public void noSubscribersForPublished() throws DisconnectedPublisherException {
 			PublisherImpl publisher = new PublisherImpl();
 			
 			publisher.addConnection("test1", con1);
@@ -64,7 +64,7 @@ public class PublisherTest {
 			Mockito.verify(con3, Mockito.times(0)).send(data);
 		}
 		@Test
-		public void oneSubscriber() {
+		public void oneSubscriber() throws DisconnectedPublisherException {
 			PublisherImpl publisher = new PublisherImpl();
 			
 			publisher.addConnection("test", con1);
@@ -77,7 +77,7 @@ public class PublisherTest {
 			Mockito.verify(con3, Mockito.times(0)).send(data);
 		}
 		@Test
-		public void twoSubscriber() {
+		public void twoSubscriber() throws DisconnectedPublisherException {
 			PublisherImpl publisher = new PublisherImpl();
 			
 			publisher.addConnection("test", con1);
@@ -131,7 +131,7 @@ public class PublisherTest {
 		private Connection con3;
 		
 		@Test
-		public void test() {
+		public void test() throws DisconnectedPublisherException {
 			Server server = Mockito.mock(Server.class);
 			Mockito.doAnswer(new Answer<Void>() {
 				@Override

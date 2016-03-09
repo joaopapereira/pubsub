@@ -6,6 +6,7 @@ import java.util.Map;
 
 import uk.co.jpereira.observer.Observable;
 import uk.co.jpereira.observer.Observer;
+import uk.co.jpereira.pubsub.DisconnectedPublisherException;
 import uk.co.jpereira.pubsub.TransferData;
 
 /**
@@ -23,15 +24,16 @@ public abstract class Connection implements Observable {
 	/**
 	 * Function to send information through this connection
 	 * @param data Information to be sent
+	 * @throws DisconnectedPublisherException 
 	 */
-	public abstract void send(TransferData data);
+	public abstract void send(TransferData data) throws DisconnectedPublisherException;
 	
 	/**
 	 * Function to receive information through this connection
 	 * This is a blocking method that will wait for information in the channel
 	 * @return Data transfered through this connection
 	 */
-	public abstract TransferData receive();
+	public abstract TransferData receive() throws DisconnectedPublisherException;
 	
 	/**
 	 * Register the observer that will be called when a specific Data is transfered
@@ -45,7 +47,13 @@ public abstract class Connection implements Observable {
 				@Override
 				public void run() {
 					while(keepConnection) {
-						TransferData newObject = receive();
+						TransferData newObject = null;
+						try {
+							newObject = receive();
+						} catch (DisconnectedPublisherException e) {
+							keepConnection = false;
+							continue;
+						}
 						if(observers.containsKey(newObject.getClass())) {
 							for(Observer observer: observers.get(newObject.getClass())) {
 								observer.update(Connection.this, newObject);
@@ -62,6 +70,8 @@ public abstract class Connection implements Observable {
 		listObservers.add(observer);
 		observers.put(typeOfObjects, listObservers);
 	}
+	
+	public abstract void disconnect();
 	
 	/**
 	 * Check if this connection is still connected

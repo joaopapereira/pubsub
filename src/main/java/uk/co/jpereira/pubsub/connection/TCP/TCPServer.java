@@ -1,4 +1,4 @@
-package uk.co.jpereira.pubsub.connection.TCP;
+package uk.co.jpereira.pubsub.connection.tcp;
 
 import java.io.IOException;
 import java.net.InetAddress;

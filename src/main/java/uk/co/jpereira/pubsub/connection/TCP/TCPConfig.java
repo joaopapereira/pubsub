@@ -1,4 +1,4 @@
-package uk.co.jpereira.pubsub.connection.TCP;
+package uk.co.jpereira.pubsub.connection.tcp;
 
 public class TCPConfig {
 	private String url;

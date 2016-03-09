@@ -1,8 +1,8 @@
 package co.uk.jpereira.pusub.examples.tcp;
 
 import uk.co.jpereira.pubsub.Subscriber;
-import uk.co.jpereira.pubsub.connection.TCP.TCPClient;
-import uk.co.jpereira.pubsub.connection.TCP.TCPConfig;
+import uk.co.jpereira.pubsub.connection.tcp.TCPClient;
+import uk.co.jpereira.pubsub.connection.tcp.TCPConfig;
 
 public class TCPSubscriber extends Subscriber{
 

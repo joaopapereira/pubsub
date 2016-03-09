@@ -1,4 +1,4 @@
-package uk.co.jpereira.pubsub.connection.TCP;
+package uk.co.jpereira.pubsub.connection.tcp;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.co.jpereira.pubsub.DisconnectedPublisherException;
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Connection;
 
@@ -48,32 +49,43 @@ public class TCPConnection extends Connection {
 	}
 
 	@Override
-	public void send(TransferData data) {
+	public void send(TransferData data) throws DisconnectedPublisherException{
 		try {
 			outputStream.writeObject(data);
 			outputStream.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DisconnectedPublisherException(connection.getRemoteSocketAddress().toString(), connection.getPort());
 		}
 	}
 
 	@Override
-	public TransferData receive() {
+	public TransferData receive() throws DisconnectedPublisherException{
 		TransferData data = null;
 		try {
 			data = (TransferData)inputStream.readObject();
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (ClassNotFoundException exp) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			exp.printStackTrace();
+		} catch (IOException e) {
+			throw new DisconnectedPublisherException(connection.getRemoteSocketAddress().toString(), connection.getPort());
 		}
 		return data;
 	}
+	
 
 
 	@Override
 	public boolean isConnected() {
 		// TODO Auto-generated method stub
-		return connection.isConnected();
+		return connection.isConnected() && !connection.isClosed() && connection.isBound();
+	}
+	@Override
+	public void disconnect() {
+		try {
+			connection.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

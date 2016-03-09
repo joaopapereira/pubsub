@@ -38,8 +38,9 @@ public abstract class Publisher {
 	 * Publish Information to a specific feed
 	 * @param feed Feed to publish the data to
 	 * @param data Information to be published
+	 * @throws DisconnectedPublisherException 
 	 */
-	public void publish(String feed, TransferData data){
+	public void publish(String feed, TransferData data) throws DisconnectedPublisherException {
 		logger.trace("publish({}, {})", feed, data);
 		if(allConnections.containsKey(feed)) {
 			for(Connection con: allConnections.get(feed)) {
@@ -129,5 +130,11 @@ public abstract class Publisher {
 	 */
 	public void stop() {
 		server.stop();
+		for(List<Connection> connections: allConnections.values()) {
+			for(Connection connection: connections) {
+				connection.disconnect();
+			}
+		}
+		allConnections.clear();
 	}
 }
