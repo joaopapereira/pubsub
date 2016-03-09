@@ -95,7 +95,7 @@ public abstract class Publisher {
 		public synchronized void update(Observable observable, Object obj) {
 			con = (Connection) obj;
 			logger.info("New connection stablished: " + con);
-			con.registerObserverNewObject(RegistrationPacket.class, new ConnectionObserver());
+			con.registerReadObserver(RegistrationPacket.class, new ConnectionObserver());
 		}
 	}
 	

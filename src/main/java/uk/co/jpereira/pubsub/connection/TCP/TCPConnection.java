@@ -82,7 +82,7 @@ public class TCPConnection implements Connection {
 	}
 
 	@Override
-	public void registerObserverNewObject(Class<?> typeOfObjects, Observer observer) {
+	public void registerReadObserver(Class<?> typeOfObjects, Observer observer) {
 		// TODO Auto-generated method stub
 		if(newObject == null) {
 			newObject = new Thread(){

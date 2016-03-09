@@ -114,7 +114,7 @@ public class PublisherTest {
 			}).when(server).registerWaitForConnection(Mockito.any());
 			new PublisherImpl(server);
 			observer.update(Mockito.mock(Observable.class), con1);
-			Mockito.verify(con1, Mockito.times(1)).registerObserverNewObject(Mockito.eq(RegistrationPacket.class), Mockito.any());
+			Mockito.verify(con1, Mockito.times(1)).registerReadObserver(Mockito.eq(RegistrationPacket.class), Mockito.any());
 		}
 	}
 	
@@ -148,10 +148,10 @@ public class PublisherTest {
 					return null;
 				}
 				
-			}).when(con1).registerObserverNewObject(Mockito.eq(RegistrationPacket.class), Mockito.any());
+			}).when(con1).registerReadObserver(Mockito.eq(RegistrationPacket.class), Mockito.any());
 			PublisherImpl publisher = new PublisherImpl(server);
 			observerNewCon.update(Mockito.mock(Observable.class), con1);
-			Mockito.verify(con1, Mockito.times(1)).registerObserverNewObject(Mockito.eq(RegistrationPacket.class), Mockito.any());
+			Mockito.verify(con1, Mockito.times(1)).registerReadObserver(Mockito.eq(RegistrationPacket.class), Mockito.any());
 			
 			RegistrationPacket packet = new RegistrationPacket("test");
 			observerConnection.update(con1, packet);

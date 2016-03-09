@@ -30,7 +30,7 @@ public class TCPClient implements Client {
 	@Override
 	public void registerWait(Observer object) {
 		// TODO Auto-generated method stub
-		connection.registerObserverNewObject(TransferData.class, object);
+		connection.registerReadObserver(TransferData.class, object);
 	}
 
 	@Override
