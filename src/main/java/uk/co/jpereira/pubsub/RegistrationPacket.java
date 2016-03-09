@@ -1,8 +1,8 @@
 package uk.co.jpereira.pubsub;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.jpereira.pubsub.connection.Connection;
 
 public class RegistrationPacket implements TransferData {
 	/**
@@ -12,6 +12,11 @@ public class RegistrationPacket implements TransferData {
 	
 	
 	private List<String> allFeeds;
+	public RegistrationPacket(String feed) {
+		List<String> listOfFeeds = new ArrayList<>();
+		listOfFeeds.add(feed);
+		setAllFeeds(listOfFeeds);
+	}
 	public RegistrationPacket(List<String> listFeeds) {
 		setAllFeeds(listFeeds);
 	}

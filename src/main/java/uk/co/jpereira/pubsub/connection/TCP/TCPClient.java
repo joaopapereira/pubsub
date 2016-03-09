@@ -1,16 +1,12 @@
 package uk.co.jpereira.pubsub.connection.TCP;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.co.jpereira.observer.Observer;
 import uk.co.jpereira.pubsub.RegistrationPacket;
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Client;
-import uk.co.jpereira.pubsub.connection.Observer;
 
 public class TCPClient implements Client {
 

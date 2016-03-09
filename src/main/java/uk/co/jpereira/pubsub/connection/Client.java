@@ -1,5 +1,6 @@
 package uk.co.jpereira.pubsub.connection;
 
+import uk.co.jpereira.observer.Observer;
 import uk.co.jpereira.pubsub.RegistrationPacket;
 import uk.co.jpereira.pubsub.TransferData;
 

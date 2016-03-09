@@ -12,16 +12,16 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.co.jpereira.observer.Observer;
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Connection;
-import uk.co.jpereira.pubsub.connection.Observer;
 
 public class TCPConnection implements Connection {
 	private static final Logger logger = LoggerFactory.getLogger(TCPConnection.class);
 	Socket connection = null;
 	private ObjectInputStream inputStream = null;
 	private ObjectOutputStream outputStream = null;
-	public Map<Class, List<Observer>> observers;
+	public Map<Class<?>, List<Observer>> observers;
 	boolean keepConnection = true;
 	public Thread newObject = null;
 	
@@ -82,7 +82,7 @@ public class TCPConnection implements Connection {
 	}
 
 	@Override
-	public void registerObserverNewObject(Class typeOfObjects, Observer observer) {
+	public void registerObserverNewObject(Class<?> typeOfObjects, Observer observer) {
 		// TODO Auto-generated method stub
 		if(newObject == null) {
 			newObject = new Thread(){

@@ -3,7 +3,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.jpereira.pubsub.TransferData;
-import uk.co.jpereira.pubsub.connection.Connection;
 
 public class Application {
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
@@ -16,6 +15,7 @@ public class Application {
 		logger.info("Before subscriber");
 		Application app = new Application();
 		app.test();
+		app.test();
 		Thread.sleep(5000);
 		logger.info("after subscriber");
 		Information info = new Information();
@@ -24,6 +24,10 @@ public class Application {
 	}
 	
 	public static class Information implements TransferData{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6820227253669673236L;
 		public String test;
 	}
 	

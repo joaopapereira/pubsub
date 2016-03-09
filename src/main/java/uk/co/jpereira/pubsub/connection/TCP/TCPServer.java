@@ -9,9 +9,9 @@ import java.net.UnknownHostException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.co.jpereira.observer.Observer;
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Connection;
-import uk.co.jpereira.pubsub.connection.Observer;
 import uk.co.jpereira.pubsub.connection.Server;
 
 public class TCPServer implements Server {
@@ -68,7 +68,7 @@ public class TCPServer implements Server {
 				public void run() {
 					while(keepConnection) {
 						Connection con = waitForConnection();
-						newConnectionAsync.update(this, con);
+						newConnectionAsync.update(TCPServer.this, con);
 
 						logger.info("Connection found and signaled " + newConnectionAsync);
 					}
