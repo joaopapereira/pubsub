@@ -22,6 +22,8 @@ public class Application {
 		info.test = "jjjjj";
 		publisher.publish("bamm", info);
 		logger.info("after publish");
+		Thread.sleep(2000);
+		publisher.stop();
 	}
 	
 	public static class Information implements TransferData{

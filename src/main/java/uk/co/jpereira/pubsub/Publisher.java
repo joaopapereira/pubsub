@@ -123,4 +123,11 @@ public abstract class Publisher {
 			}
 		}
 	}
+	
+	/**
+	 * Stop the publisher 
+	 */
+	public void stop() {
+		server.stop();
+	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
@@ -43,9 +44,15 @@ public class TCPServer extends Server {
 		try {
 
 			logger.info("Waiting for connections");
+			if(serverSocket.isClosed())
+				return null;
 			Socket socket = serverSocket.accept();
 			logger.info("New connection accepted: " + socket);
 			return new TCPConnection(socket);
+		} catch(SocketException exp) {
+			logger.error("Error accepting new connections: " + exp);
+			if(exp.getMessage().indexOf("closed") > 0)
+				super.stop();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
