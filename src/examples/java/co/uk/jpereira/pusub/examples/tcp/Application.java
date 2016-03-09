@@ -24,6 +24,9 @@ public class Application {
 		logger.info("after publish");
 		Thread.sleep(2000);
 		publisher.stop();
+		publisher = new TCPPublisher();
+		publisher.publish("bamm", info);
+		
 	}
 	
 	public static class Information implements TransferData{
@@ -53,6 +56,8 @@ public class Application {
 				logger.info("Subscribed waiting");
 				Information info = (Information)sub1.read();
 				logger.info(info.test);
+				info = (Information)sub1.read();
+				logger.info("Retrieved second");
 			}
 		}.start();
 	}
