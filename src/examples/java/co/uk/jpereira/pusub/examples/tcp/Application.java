@@ -7,6 +7,18 @@ import org.slf4j.LoggerFactory;
 import uk.co.jpereira.pubsub.DisconnectedPublisherException;
 import uk.co.jpereira.pubsub.TransferData;
 
+/**
+ * Example of utilization of the TCP version of the pubsub
+ * The publisher starts
+ * 2 subscribers are created
+ * The publisher publishes on object
+ * Both the subscribers read it and print the information
+ * Both subscribers try to read next information
+ * Publisher is stopped
+ * Both subscribers stop because no publisher is available 
+ * @author joaopapereira@gmail.com
+ *
+ */
 public class Application {
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
 	public static void main(String[] args) throws InterruptedException, DisconnectedPublisherException, IOException {
