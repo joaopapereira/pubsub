@@ -21,6 +21,7 @@ public class Application {
 		Information info = new Information();
 		info.test = "jjjjj";
 		publisher.publish("bamm", info);
+		logger.info("after publish");
 	}
 	
 	public static class Information implements TransferData{

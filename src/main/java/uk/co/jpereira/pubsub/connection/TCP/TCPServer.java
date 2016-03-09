@@ -9,24 +9,20 @@ import java.net.UnknownHostException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.co.jpereira.observer.Observer;
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Connection;
 import uk.co.jpereira.pubsub.connection.Server;
 
-public class TCPServer implements Server {
+public class TCPServer extends Server {
 	private static final Logger logger = LoggerFactory.getLogger(TCPServer.class);
 	
 	private ServerSocket serverSocket = null;
-	private boolean keepConnection = false;
-	private Observer newConnectionAsync = null;
-	private Thread connectionWaiter = null;
 	public TCPServer(TCPConfig configuration){
 		try {
 			logger.info("Creating socket at ");
 			InetAddress addr = InetAddress.getByName(configuration.getUrl());
 			serverSocket = new ServerSocket(configuration.getPort(), 50, addr);
-			keepConnection = true;
+			logger.info("Socketserver: " + serverSocket);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,30 +54,9 @@ public class TCPServer implements Server {
 	}
 
 	@Override
-	public void registerWaitForConnection(Observer object) {
-		// TODO Auto-generated method stub
-		newConnectionAsync = object;
-		if(connectionWaiter == null) {
-			connectionWaiter = new Thread(){
-	
-				@Override
-				public void run() {
-					while(keepConnection) {
-						Connection con = waitForConnection();
-						newConnectionAsync.update(TCPServer.this, con);
-
-						logger.info("Connection found and signaled " + newConnectionAsync);
-					}
-				}
-			};
-			connectionWaiter.start();
-		}
-	}
-
-	@Override
 	public void stop() {
+		super.stop();
 		try {
-			keepConnection = false;
 			serverSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
