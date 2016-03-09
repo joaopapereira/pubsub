@@ -112,7 +112,7 @@ public class PublisherTest {
 				}
 				
 			}).when(server).registerWaitForConnection(Mockito.any());
-			PublisherImpl publisher = new PublisherImpl(server);
+			new PublisherImpl(server);
 			observer.update(Mockito.mock(Observable.class), con1);
 			Mockito.verify(con1, Mockito.times(1)).registerObserverNewObject(Mockito.eq(RegistrationPacket.class), Mockito.any());
 		}
