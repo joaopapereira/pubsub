@@ -1,7 +1,5 @@
 package uk.co.jpereira.pubsub.connection.tcp;
 
-import java.io.EOFException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,25 +10,46 @@ import uk.co.jpereira.pubsub.RegistrationPacket;
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Client;
 
+/**
+ * TCP implementation of the client
+ * This implementation creates a socket connection
+ * to the publisher
+ * @author jpereira
+ *
+ */
 public class TCPClient implements Client {
 
 	private static final Logger logger = LoggerFactory.getLogger(TCPClient.class);
 	private TCPConnection connection = null;
 	private TCPConfig config = null;
+	/**
+	 * Class constructor
+	 * @param config TCP Configuration to connect to the publisher 
+	 */
 	public TCPClient(TCPConfig config) {
 		this.config = config;
 		connect();
 		
 	}
+	
+	/**
+	 * Connect to the server
+	 */
 	public void connect() {
 		logger.info("Going to connect to: " + config.getUrl() + "," + config.getPort());
 		connection = new TCPConnection(config);
 
 		logger.info("Connected");
 	}
+	
+	/**
+	 * Check if the connection is still alive
+	 * @return True if is alive, false otherwise
+	 */
 	public boolean isConnected() {
 		return connection != null && connection.isConnected();
 	}
+	
 	@Override
 	public void registerWait(Observer object) {
 		// TODO Auto-generated method stub
@@ -59,5 +78,4 @@ public class TCPClient implements Client {
 	public boolean isAlive() {
 		return connection.isConnected();
 	}
-
 }

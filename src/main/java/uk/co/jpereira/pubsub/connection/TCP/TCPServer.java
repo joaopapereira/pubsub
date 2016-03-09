@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,23 +13,27 @@ import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Connection;
 import uk.co.jpereira.pubsub.connection.Server;
 
+/**
+ * TCP implementation of the server
+ * Uses ServerSocket to ensure the connections are correctly created
+ * @author joaopapereira@gmail.com
+ *
+ */
 public class TCPServer extends Server {
 	private static final Logger logger = LoggerFactory.getLogger(TCPServer.class);
 	
 	private ServerSocket serverSocket = null;
-	public TCPServer(TCPConfig configuration){
-		try {
-			logger.info("Creating socket at ");
-			InetAddress addr = InetAddress.getByName(configuration.getUrl());
-			serverSocket = new ServerSocket(configuration.getPort(), 50, addr);
-			logger.info("Socketserver: " + serverSocket);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	/**
+	 * Class constructor
+	 * Creates the server in the IP and port provided by the configuration
+	 * 
+	 * @param configuration Server configuration
+	 * @throws IOException Throws if an error occur while creating the socket
+	 */
+	public TCPServer(TCPConfig configuration) throws IOException{
+		InetAddress addr = InetAddress.getByName(configuration.getUrl());
+		serverSocket = new ServerSocket(configuration.getPort(), 50, addr);
+		logger.info("Socketserver: " + serverSocket);
 	}
 			
 	@Override

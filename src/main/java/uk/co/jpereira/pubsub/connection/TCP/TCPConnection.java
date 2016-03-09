@@ -13,12 +13,23 @@ import uk.co.jpereira.pubsub.DisconnectedPublisherException;
 import uk.co.jpereira.pubsub.TransferData;
 import uk.co.jpereira.pubsub.connection.Connection;
 
+/**
+ * TCP Connection between the Server and the client.
+ * In this class is stored the socket  that contains the connection
+ * @author joaopapereira@gmail.com
+ *
+ */
 public class TCPConnection extends Connection {
 	private static final Logger logger = LoggerFactory.getLogger(TCPConnection.class);
 	Socket connection = null;
 	private ObjectInputStream inputStream = null;
 	private ObjectOutputStream outputStream = null;
 	
+	/**
+	 * Class constructor(used by the server)
+	 * This class constructor just retrieve the input and output stream
+	 * @param connection Already established connection socket
+	 */
 	public TCPConnection(Socket connection) {
 		logger.info("TCPConnection(" + connection +")");
 		this.connection = connection;
@@ -33,6 +44,13 @@ public class TCPConnection extends Connection {
 		observers = new HashMap<>();
 		logger.info("Done TCPConnection");
 	}
+	
+	/**
+	 * Class constructor(Used by the client)
+	 * This constructor will create the socket connection using the 
+	 * information provided in the configuration object
+	 * @param config Configuration object
+	 */
 	public TCPConnection(TCPConfig config) {
 		logger.info("TCPConnection(" + config +")");
 		try {
@@ -72,8 +90,6 @@ public class TCPConnection extends Connection {
 		return data;
 	}
 	
-
-
 	@Override
 	public boolean isConnected() {
 		// TODO Auto-generated method stub

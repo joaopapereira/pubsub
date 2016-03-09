@@ -1,4 +1,6 @@
 package co.uk.jpereira.pusub.examples.tcp;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,7 +9,7 @@ import uk.co.jpereira.pubsub.TransferData;
 
 public class Application {
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
-	public static void main(String[] args) throws InterruptedException, DisconnectedPublisherException {
+	public static void main(String[] args) throws InterruptedException, DisconnectedPublisherException, IOException {
 		// TODO Auto-generated method stub
 		logger.info("Bamm");
 		TCPPublisher publisher = new TCPPublisher();
